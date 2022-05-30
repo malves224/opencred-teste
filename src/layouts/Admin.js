@@ -106,6 +106,7 @@ export default function Dashboard(props) {
           base: "100%",
           xl: "calc(100% - 275px)",
         }}
+        paddingTop="320px"
       >
         <Portal>
           <AdminNavbar
@@ -127,7 +128,6 @@ export default function Dashboard(props) {
             </PanelContainer>
           </PanelContent>
         ) : null}
-        <Footer />
         <Portal>
           <FixedPlugin
             secondary={getActiveNavbar(routes)}
