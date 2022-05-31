@@ -1,7 +1,8 @@
 // Chakra imports
-import { ChakraProvider, Portal, useDisclosure } from "@chakra-ui/react";
+import { ChakraProvider, Flex, Portal, useDisclosure } from "@chakra-ui/react";
 import Configurator from "components/Configurator/Configurator";
 import Footer from "components/Footer/Footer.js";
+import ContainerRisk from "components/InfoRisk/ContainerRisk";
 // Layout components
 import AdminNavbar from "components/Navbars/AdminNavbar.js";
 import Sidebar from "components/Sidebar";
@@ -121,6 +122,20 @@ export default function Dashboard(props) {
         {getRoute() ? (
           <PanelContent>
             <PanelContainer>
+            <Flex
+              marginTop="75px"
+              border="1px solid red"
+              height="290px"
+              justifyContent="space-between"
+              flexDirection="row"
+            >
+              <ContainerRisk />
+              <h1>componente 2</h1>
+              <h1>componente 3</h1>
+            </Flex>
+            {
+              // componente intrínseco ao template.
+            }
               <Switch>
                 {getRoutes(routes)}
                 <Redirect from="/admin" to="/admin/dashboard" />
