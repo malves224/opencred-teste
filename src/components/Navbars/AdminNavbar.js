@@ -7,14 +7,26 @@ import {
   Flex,
   Link,
   useColorModeValue,
+  Image,
+  Heading,
+  Stack,
+  Text
 } from "@chakra-ui/react";
 import PropTypes from "prop-types";
+import farmIcon from "../../imgs/logo-farm.png";
 import React, { useState } from "react";
 import AdminNavbarLinks from "./AdminNavbarLinks";
 import backgroundImg from "../../imgs/background-menu-main.png"
 
 export default function AdminNavbar(props) {
   const [scrolled, setScrolled] = useState(false);
+  const [dataIssuer, setdataIssuer] = useState({
+    name: "Produtor rural",
+    email: "matheus@email",
+    doc: "123.432.123.42",
+    logo: "www.static.com/logo",
+    createdAt: "24/07/2028"
+  })
   const {
     variant,
     children,
@@ -165,12 +177,41 @@ export default function AdminNavbar(props) {
         background={backgroundProfile}  
         width="100%"
         backdropFilter={navbarBackdrop}
+        justifyContent="space-between"
         borderRadius="16px"
-        marginTop="185px"
+        marginTop="185px" 
+        padding="0 10px"
         minHeight="120px"
         height="80px"
       >
-
+        <Flex
+          alignItems="center"
+          justifyContent="space-between"
+          width="12%"
+        >
+            <Image marginRight="10px" width="13" src={farmIcon} />
+            <Box>
+              <Heading size="3l" as="h4">{dataIssuer.name}</Heading>
+              <Text color="gray" fontSize="3l">{`${dataIssuer.email} \n ${dataIssuer.doc}`}</Text>
+            </Box>
+        </Flex>
+        <Flex
+          alignItems="center"
+          width="18%"
+          justifyContent="space-around"
+        >
+          <Box 
+            borderRadius="50%"
+            width="18px"
+            height="18px"
+            border="1px solid gray"
+           />
+          <Text 
+            fontWeight="600"
+          >
+            {`Cliente desde ${dataIssuer.createdAt}`}
+          </Text>
+        </Flex>
       </Flex>
     </Flex>
   );
