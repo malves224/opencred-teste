@@ -1,6 +1,7 @@
 // Chakra imports
 import { ChakraProvider, Flex, Portal, useDisclosure } from "@chakra-ui/react";
 import Configurator from "components/Configurator/Configurator";
+import FinancialStatement from "components/FinancialStatement/FinancialStatement";
 import Footer from "components/Footer/Footer.js";
 import ContainerRisk from "components/InfoRisk/ContainerRisk";
 // Layout components
@@ -129,8 +130,12 @@ export default function Dashboard(props) {
               justifyContent="space-between"
               flexDirection="row"
             >
-              <ContainerRisk />
-              <h1>componente 2</h1>
+              <ContainerRisk 
+                css={{width: "30%"}}
+              />
+              <FinancialStatement 
+                css={{width: "40%"}}
+              />
               <h1>componente 3</h1>
             </Flex>
             {
