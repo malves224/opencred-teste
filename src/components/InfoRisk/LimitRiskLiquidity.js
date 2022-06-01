@@ -2,14 +2,9 @@ import { Box, Flex, Text } from '@chakra-ui/react'
 import { Separator } from "components/Separator/Separator"
 import React, { useState } from 'react'
 
-function LimitRiskLiquidity() {
-  const [fields, setField] = useState({
-    limit: "R$ 1.5M",
-    risk: "R$ 1.3M",
-    liquidity: "58%"
-  });
+function LimitRiskLiquidity({fields}) {
 
-  const generateItem = (textContent, field) => {
+  const generateItem = (textContent, field, key) => {
     const fieldParam = {
       limit: ["orange.200", "Limite"],
       risk: ["red.200", "Risco"],
@@ -17,6 +12,7 @@ function LimitRiskLiquidity() {
     }
     return (      
     <Flex
+      key={key}
       alignItems="center"
       flexDirection="row"
       height="80px"
@@ -53,7 +49,7 @@ function LimitRiskLiquidity() {
     >
       {
         Object.keys(fields)
-          .map((field) => generateItem(fields[field], field))
+          .map((field, index) => generateItem(fields[field], field, index))
       }
     </Flex>
   )
