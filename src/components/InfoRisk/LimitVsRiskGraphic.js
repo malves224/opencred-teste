@@ -19,7 +19,7 @@ function LimitVsRiskGraphic({fields}) {
 
   const calculatePercentage = () => {
     const porcentagem = (producerInfo.risk / producerInfo.limit) * 100;
-    return porcentagem.toFixed();
+    return [`${porcentagem.toFixed()}%`, porcentagem.toFixed()];
   }
 
   return (
@@ -33,12 +33,14 @@ function LimitVsRiskGraphic({fields}) {
       borderRadius="15px"
     >
     <CircularProgress 
-      value={calculatePercentage()} 
+      value={producerInfo.risk ? calculatePercentage()[1]: 0} 
       size="120px"
       thickness="17px"
       color="teal.300"
     >
-      <CircularProgressLabel>{`${calculatePercentage()}%`}</CircularProgressLabel>
+      <CircularProgressLabel>
+        {producerInfo.risk ? calculatePercentage()[0] : "0%"}
+      </CircularProgressLabel>
     </CircularProgress>
       <Flex
         alignItems="center"
