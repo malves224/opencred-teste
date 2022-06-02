@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import LimitRiskLiquidity from './LimitRiskLiquidity';
 import LimitVsRiskGraphic from './LimitVsRiskGraphic';
 
-function ContainerRisk() {
+function ContainerRisk({css}) {
   const [fields, setField] = useState({
     limit: "R$ 1.5M",
     risk: "R$ 1.3M",
@@ -14,13 +14,10 @@ function ContainerRisk() {
     <Flex
       flexDirection="row"
       justifyContent="space-between"
-      width="40%"
+      {...css}
     >
       <LimitRiskLiquidity fields={fields} />
       <LimitVsRiskGraphic fields={fields} />
-      {
-        // limitVsRiskGraphic
-      }
     </Flex>
   )
 }

@@ -6,6 +6,7 @@ import Footer from "components/Footer/Footer.js";
 import ContainerRisk from "components/InfoRisk/ContainerRisk";
 // Layout components
 import AdminNavbar from "components/Navbars/AdminNavbar.js";
+import SerasaInfo from "components/SerasaInfo/SerasaInfo";
 import Sidebar from "components/Sidebar";
 import React, { useState } from "react";
 import { Redirect, Route, Switch } from "react-router-dom";
@@ -93,7 +94,6 @@ export default function Dashboard(props) {
   };
   const { isOpen, onOpen, onClose } = useDisclosure();
   document.documentElement.dir = "ltr";
-  // Chakra Color Mode
   return (
     <ChakraProvider theme={theme} resetCss={false}>
       <Sidebar
@@ -125,47 +125,21 @@ export default function Dashboard(props) {
             <PanelContainer>
             <Flex
               marginTop="75px"
-              border="1px solid red"
               height="290px"
               justifyContent="space-between"
               flexDirection="row"
             >
               <ContainerRisk 
-                css={{width: "30%"}}
+                css={{width: "35%"}}
               />
               <FinancialStatement 
                 css={{width: "40%"}}
               />
-              <h1>componente 3</h1>
+              <SerasaInfo css={{width: "18%"}} />
             </Flex>
-            {
-              // componente intrínseco ao template.
-            }
-              <Switch>
-                {getRoutes(routes)}
-                <Redirect from="/admin" to="/admin/dashboard" />
-              </Switch>
             </PanelContainer>
           </PanelContent>
         ) : null}
-        <Portal>
-          <FixedPlugin
-            secondary={getActiveNavbar(routes)}
-            fixed={fixed}
-            onOpen={onOpen}
-          />
-        </Portal>
-        <Configurator
-          secondary={getActiveNavbar(routes)}
-          isOpen={isOpen}
-          onClose={onClose}
-          isChecked={fixed}
-          onSwitch={(value) => {
-            setFixed(value);
-          }}
-          onOpaque={() => setSidebarVariant("opaque")}
-          onTransparent={() => setSidebarVariant("transparent")}
-        />
       </MainPanel>
     </ChakraProvider>
   );

@@ -19,7 +19,7 @@ function LimitVsRiskGraphic({fields}) {
       alignItems="center"
       flexDirection="column"
       padding="15px"
-      width="40%"
+      width="45%"
       justifyContent="space-evenly"
       backgroundColor="white"
       borderRadius="15px"

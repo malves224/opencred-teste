@@ -10,6 +10,7 @@ import React from 'react'
 function FinancialStatement({css}) {
   return (
     <Flex
+      borderRadius="12px"
       backgroundColor="white"
       flexDirection="column"
       padding="20px"
