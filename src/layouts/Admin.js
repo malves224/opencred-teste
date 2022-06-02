@@ -5,7 +5,7 @@ import AdminNavbar from "components/Navbars/AdminNavbar.js";
 import SerasaInfo from "components/SerasaInfo/SerasaInfo";
 import Sidebar from "components/Sidebar";
 import dataProducer from "context";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect } from "react";
 import { Route, useParams } from "react-router-dom";
 import routes from "routes.js";
 import theme from "theme/theme.js";
