@@ -4,10 +4,12 @@ import ContainerRisk from "components/InfoRisk/ContainerRisk";
 import AdminNavbar from "components/Navbars/AdminNavbar.js";
 import SerasaInfo from "components/SerasaInfo/SerasaInfo";
 import Sidebar from "components/Sidebar";
-import React, { useState } from "react";
+import dataProducer from "context";
+import React, { useContext, useEffect, useState } from "react";
 import { Route, useParams } from "react-router-dom";
 import routes from "routes.js";
 import theme from "theme/theme.js";
+import requestApi from "utils/api";
 import MainPanel from "../components/Layout/MainPanel";
 import PanelContainer from "../components/Layout/PanelContainer";
 import PanelContent from "../components/Layout/PanelContent";
@@ -17,10 +19,16 @@ export default function Dashboard(props) {
   const params = useParams();
   const idParamUrl = params.id ? params.id : "1";
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const { setProducerInfo } = useContext(dataProducer);
 
   const getRoute = () => {
     return window.location.pathname !== "/admin/full-screen-maps";
   };
+
+  useEffect(() => {
+    requestApi(`/producer/${idParamUrl}`, "GET")
+      .then((res) => setProducerInfo(res));
+  }, []);
   
   const getRoutes = (routes) => {
     return routes.map((prop, key) => {
