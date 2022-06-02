@@ -8,10 +8,44 @@ import {
   Stack, 
   Text } from '@chakra-ui/react'
 import { Separator } from 'components/Separator/Separator';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import requestApi from 'utils/api';
 import serasaLogo from '../../imgs/serasa-logo.png';
 
 function SerasaInfo({css}) {
+  const [infoSerasa, setInfoSerasa] = useState([null]);
+  const params = useParams();
+  const idParamUrl = params.id ? params.id : "1";
+  
+
+  const getColorScore = (value) => {
+    console.log(value)
+    if (value >= 0 && value <= 400) {
+      return "red"
+    } else if (value >= 401 && value <= 599) {
+      return "yellow"
+    } else if (value > 600) {
+      return "green"
+    }
+  }
+
+  const getHourCompleteNow = () => {
+    const dateObj = new Date();
+    console.log(dateObj.getHours());
+    const minutesFromObj = dateObj.getMinutes();
+    const minutes = minutesFromObj >= 0 && minutesFromObj <= 10 
+      ? `0${dateObj.getMinutes()}`
+      : dateObj.getMinutes();
+    return `${dateObj.getHours()}:${minutes}`
+  }
+
+
+  useEffect(() => {
+    requestApi(`/serasa/${idParamUrl}`, 'GET')
+      .then((res) => setInfoSerasa(res))
+  }, []);
+
   return (
     <Flex
       alignItems="center"
@@ -39,7 +73,7 @@ function SerasaInfo({css}) {
           <Box
             alignItems="center"
             justifyContent="center"
-            backgroundColor="teal.300"
+            backgroundColor={infoSerasa.debts ? "orange.300" : "teal.300"} 
             borderRadius="12px"
             padding="10px"
             width="50%"
@@ -53,8 +87,10 @@ function SerasaInfo({css}) {
             spacing={0} 
             width="45%"
             >
-            <Text fontWeight={600} fontSize="0.9em">Sem restritivos</Text>
-            <Text color="gray.300" fontSize="0.6em">Verificado ás 21:52:12</Text>
+            <Text fontWeight={600} fontSize="0.9em">
+              {infoSerasa.debts ? "Há restritivos" : "Sem restritivos"}
+            </Text>
+            <Text color="gray.300" fontSize="0.6em">{`Verificado ás ${getHourCompleteNow()}`}</Text>
             <CheckIcon color="teal" />
           </Stack>
         </Flex>
@@ -65,13 +101,14 @@ function SerasaInfo({css}) {
         >
           <Flex
             alignItems="center"
-            backgroundColor="green.100"
+            backgroundColor={`${getColorScore(infoSerasa.score)}.100`}
             borderRadius="12px"
             justifyContent="center"
             height="42px"
             width="45%"
           >
-            <StarIcon marginRight="4px" color="green.300"/> Score: 650
+            <StarIcon marginRight="4px" color={`${getColorScore(infoSerasa.score)}.300`}/>
+            {`Score: ${infoSerasa.score}`}
           </Flex>
           <Flex
             alignItems="center"
@@ -81,7 +118,8 @@ function SerasaInfo({css}) {
             height="42px"
             width="45%"
           >
-            <InfoOutlineIcon marginRight="4px" color="orange.300"/> Dividas: 0
+            <InfoOutlineIcon marginRight="4px" color="orange.300"/> 
+            {`Dividas: ${infoSerasa.debts}`}
           </Flex>
         </Flex>
         <Button colorScheme="teal" variant="link">
