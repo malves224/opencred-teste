@@ -1,3 +1,4 @@
+import { ArrowDownIcon, ArrowUpIcon } from '@chakra-ui/icons';
 import { 
   Flex, 
   Heading, 
@@ -5,9 +6,54 @@ import {
   TableContainer, 
   Thead, 
   Tr, Th, Tbody, Td } from '@chakra-ui/react'
-import React from 'react'
+import dataProducer from 'context';
+import React, { useContext, useEffect, useState } from 'react'
+import { useParams } from 'react-router-dom';
+import requestApi from 'utils/api';
 
 function FinancialStatement({css}) {
+  const { listDRE, setListDRE } = useContext(dataProducer);
+  const [fields, setFields] = useState([]);
+  const params = useParams();
+  const idParamUrl = params.id ? params.id : "1";
+  const fieldsReduced = {
+    netWorth: "Patrimônio Líquido",
+    invoicing: "Faturamento",
+    EBTIDA: "EBTIDA",
+    netProfit: "Lucro Liquido",
+    shortIndebtedness: "Endividamento CP",
+    longIndebtedness: "Endividamento LP"
+  }
+
+  useEffect(() => {
+    requestApi(`/dre/${idParamUrl}`, "GET")
+    .then((res) => {
+      setFields(Object.keys(res[0]).slice(3));
+      setListDRE(res);
+    });
+  }, []);
+
+  const renderRow = (field, index) => (
+      <Tr  key={index}>
+        <Td fontWeight={600}>{fieldsReduced[field]}</Td>
+        {
+        listDRE && listDRE
+          .map((dre, indexValue) => {
+            if (indexValue > 0) {
+             const isVariantPositive = listDRE[indexValue -1][field] < dre[field];
+             return (
+              <Td>
+               {dre[field]}
+               {isVariantPositive ? <ArrowUpIcon color="green" /> : <ArrowDownIcon color="red" />}
+              </Td>
+             )
+          }
+            return (<Td>{dre[field]}</Td>)
+          })
+        }
+      </Tr>
+    );
+
   return (
     <Flex
       borderRadius="12px"
@@ -23,42 +69,15 @@ function FinancialStatement({css}) {
             <Tr>
               <Th></Th>
               {
-                ["2019", "2020", "2021"]
-                  .map((yearColumn, index) => <Th key={index} >{yearColumn}</Th>)
+                listDRE && listDRE
+                  .map(({period}, index) => <Th key={index} >{period}</Th>)
               }
             </Tr>
           </Thead>
           <Tbody>
-            <Tr>
-              <Td fontWeight={600}>Patrimônio Líquido</Td>
-              <Td>R$ 554.543</Td>
-              <Td>R$ 554.543</Td>
-              <Td>R$ 554.543</Td>
-            </Tr>
-            <Tr>
-              <Td fontWeight={600}>Faturamento</Td>
-              <Td>R$ 554.543</Td>
-              <Td>R$ 554.543</Td>
-              <Td>R$ 554.543</Td>
-            </Tr>
-            <Tr>
-              <Td fontWeight={600}>EBTIDA</Td>
-              <Td>R$ 554.543</Td>
-              <Td>R$ 554.543</Td>
-              <Td>R$ 554.543</Td>
-            </Tr>
-            <Tr>
-              <Td fontWeight={600}>Endividamento CP</Td>
-              <Td>R$ 554.543</Td>
-              <Td>R$ 554.543</Td>
-              <Td>R$ 554.543</Td>
-            </Tr>
-            <Tr>
-              <Td fontWeight={600}>Endividamento LP</Td>
-              <Td>R$ 554.543</Td>
-              <Td>R$ 554.543</Td>
-              <Td>R$ 554.543</Td>
-            </Tr>
+            {
+                fields && fields.map(renderRow)
+            }
           </Tbody>
         </Table>
       </TableContainer>
