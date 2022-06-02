@@ -22,16 +22,19 @@ import { HashRouter, Route, Switch, Redirect } from "react-router-dom";
 import AuthLayout from "layouts/Auth.js";
 import AdminLayout from "layouts/Admin.js";
 import RTLLayout from "layouts/RTL.js";
+import ProviderDataProducer from "context/ProviderDataProducer";
 
 ReactDOM.render(
-  <HashRouter>
-    <Switch>
-      <Route path={`/auth`} component={AuthLayout} />
-      <Route path={`/admin/:id`} component={AdminLayout} />
-      <Route path={`/admin/`} component={AdminLayout} />
-      <Route path={`/rtl`} component={RTLLayout} />
-      <Redirect from={`/`} to="/admin/" />
-    </Switch>
-  </HashRouter>,
+  <ProviderDataProducer>
+    <HashRouter>
+        <Switch>
+          <Route path={`/auth`} component={AuthLayout} />
+          <Route path={`/admin/:id`} component={AdminLayout} />
+          <Route path={`/admin/`} component={AdminLayout} />
+          <Route path={`/rtl`} component={RTLLayout} />
+          <Redirect from={`/`} to="/admin/" />
+        </Switch>
+    </HashRouter>
+  </ProviderDataProducer>,
   document.getElementById("root")
 );
