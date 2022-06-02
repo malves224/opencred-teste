@@ -7,13 +7,21 @@ import {
    Box, 
    Stack} from '@chakra-ui/react'
 import { Separator } from 'components/Separator/Separator'
-import React from 'react'
+import dataProducer from 'context';
+import React, { useContext } from 'react'
 
 function LimitVsRiskGraphic({fields}) {
+  const { producerInfo } = useContext(dataProducer);
   const propsCssText = {
     fontWeight: 600,
     color: "gray.300"
   }
+
+  const calculatePercentage = () => {
+    const porcentagem = (producerInfo.risk / producerInfo.limit) * 100;
+    return porcentagem.toFixed();
+  }
+
   return (
     <Flex
       alignItems="center"
@@ -25,12 +33,12 @@ function LimitVsRiskGraphic({fields}) {
       borderRadius="15px"
     >
     <CircularProgress 
-      value={83} 
+      value={calculatePercentage()} 
       size="120px"
       thickness="17px"
       color="teal.300"
     >
-      <CircularProgressLabel>83%</CircularProgressLabel>
+      <CircularProgressLabel>{`${calculatePercentage()}%`}</CircularProgressLabel>
     </CircularProgress>
       <Flex
         alignItems="center"
