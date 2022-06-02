@@ -9,6 +9,7 @@ import {
 import dataProducer from 'context';
 import React, { useContext, useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom';
+import { toMoney } from 'utils';
 import requestApi from 'utils/api';
 
 function FinancialStatement({css}) {
@@ -43,12 +44,12 @@ function FinancialStatement({css}) {
              const isVariantPositive = listDRE[indexValue -1][field] < dre[field];
              return (
               <Td>
-               {dre[field]}
+               {toMoney(dre[field])}
                {isVariantPositive ? <ArrowUpIcon color="green" /> : <ArrowDownIcon color="red" />}
               </Td>
              )
           }
-            return (<Td>{dre[field]}</Td>)
+            return (<Td>{toMoney(dre[field])}</Td>)
           })
         }
       </Tr>
