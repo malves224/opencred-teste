@@ -7,13 +7,21 @@ import {
   Flex,
   Link,
   useColorModeValue,
+  Image,
+  Heading,
+  Stack,
+  Text
 } from "@chakra-ui/react";
 import PropTypes from "prop-types";
-import React, { useState } from "react";
+import farmIcon from "../../imgs/logo-farm.png";
+import React, { useContext, useState } from "react";
 import AdminNavbarLinks from "./AdminNavbarLinks";
+import backgroundImg from "../../imgs/background-menu-main.png"
+import dataProducer from "context";
 
 export default function AdminNavbar(props) {
   const [scrolled, setScrolled] = useState(false);
+  const { producerInfo } = useContext(dataProducer);
   const {
     variant,
     children,
@@ -25,13 +33,14 @@ export default function AdminNavbar(props) {
   } = props;
 
   // Here are all the props that may change depending on navbar's type or state.(secondary, variant, scrolled)
-  let mainText = useColorModeValue("gray.700", "gray.200");
-  let secondaryText = useColorModeValue("gray.400", "gray.200");
+  let mainText = useColorModeValue("white");
+  let backgroundColor = useColorModeValue("#1FAB89");
+  let backgroundProfile = "linear-gradient(0deg, #ffffff 0%, rgba(255, 255, 255, 0.8) 110.84%);"
+  let secondaryText = useColorModeValue("white");
   let navbarPosition = "absolute";
   let navbarFilter = "none";
-  let navbarBackdrop = "blur(21px)";
+  let navbarBackdrop = "blur(100px)";
   let navbarShadow = "none";
-  let navbarBg = "none";
   let navbarBorder = "transparent";
   let secondaryMargin = "0px";
   let paddingX = "15px";
@@ -71,8 +80,10 @@ export default function AdminNavbar(props) {
   return (
     <Flex
       position={navbarPosition}
+      backgroundColor={backgroundColor}
+      backgroundImage={backgroundImg}
+      backgroundRepeat="round"
       boxShadow={navbarShadow}
-      bg={navbarBg}
       borderColor={navbarBorder}
       filter={navbarFilter}
       backdropFilter={navbarBackdrop}
@@ -82,11 +93,13 @@ export default function AdminNavbar(props) {
       transitionDuration=" 0.25s, 0.25s, 0.25s, 0s"
       transition-property="box-shadow, background-color, filter, border"
       transitionTimingFunction="linear, linear, linear, linear"
-      alignItems={{ xl: "center" }}
+      alignItems={{ xl: "baseline" }}
       borderRadius="16px"
       display="flex"
       minH="75px"
-      justifyContent={{ xl: "center" }}
+      height="301px"
+      flexDirection="column"
+      justifyContent="space-between"
       lineHeight="25.6px"
       mx="auto"
       mt={secondaryMargin}
@@ -95,10 +108,10 @@ export default function AdminNavbar(props) {
       right={document.documentElement.dir === "rtl" ? "" : "30px"}
       px={{
         sm: paddingX,
-        md: "30px",
+        md: "21px",
       }}
       ps={{
-        xl: "12px",
+        xl: "21px",
       }}
       pt="8px"
       top="18px"
@@ -154,6 +167,46 @@ export default function AdminNavbar(props) {
             fixed={props.fixed}
           />
         </Box>
+      </Flex>
+      <Flex
+        background={backgroundProfile}  
+        width="100%"
+        backdropFilter={navbarBackdrop}
+        justifyContent="space-between"
+        borderRadius="16px"
+        marginTop="185px" 
+        padding="0 10px"
+        minHeight="120px"
+        height="80px"
+      >
+        <Flex
+          alignItems="center"
+          justifyContent="space-between"
+          width="12%"
+        >
+            <Image marginRight="10px" width="13" src={farmIcon} />
+            <Box>
+              <Heading size="3l" as="h4">{producerInfo.name}</Heading>
+              <Text color="gray" fontSize="3l">{`${producerInfo.email} \n ${producerInfo.doc}`}</Text>
+            </Box>
+        </Flex>
+        <Flex
+          alignItems="center"
+          width="18%"
+          justifyContent="space-around"
+        >
+          <Box 
+            borderRadius="50%"
+            width="18px"
+            height="18px"
+            border="1px solid gray"
+           />
+          <Text 
+            fontWeight="600"
+          >
+            {`Cliente desde ${producerInfo.createdAt}`}
+          </Text>
+        </Flex>
       </Flex>
     </Flex>
   );

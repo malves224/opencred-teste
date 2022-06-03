@@ -35,7 +35,6 @@
     "react-swipeable-views": "0.14.0",
     "react-table": "7.7.0",
     "react-tagsinput": "3.19.0",
-    "stylis": "^4.0.13",
     "stylis-plugin-rtl": "^2.1.1"
   },
   "resolutions": {
@@ -49,7 +48,9 @@
     "deploy": "npm run build",
     "lint:check": "eslint . --ext=js,jsx;  exit 0",
     "lint:fix": "eslint . --ext=js,jsx --fix;  exit 0",
-    "install:clean": "rm -rf node_modules/ && rm -rf package-lock.json && npm install && npm start"
+    "install:clean": "rm -rf node_modules/ && rm -rf package-lock.json && npm install && npm start",
+    "compose:up": "docker-compose up -d --build",
+    "compose:down": "docker-compose down --remove-orphans"
   },
   "optionalDependencies": {
     "@babel/core": "7.14.0",
